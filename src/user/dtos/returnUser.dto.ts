@@ -16,7 +16,7 @@ export class ReturnUserDto {
     this.phone = UserEntity.phone;
     this.cpf = UserEntity.cpf;
     this.addresses = UserEntity
-      ? UserEntity.addresses.map((adrress) => new returnAddressDto(adrress))
+      ? UserEntity.addresses?.map((adrress) => new returnAddressDto(adrress))
       : undefined;
   }
 }
