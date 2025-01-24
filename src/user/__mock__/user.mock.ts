@@ -1,11 +1,11 @@
 import { UserEntity } from '../entities/user.entity';
 import { UserType } from '../enum/user-type.enum';
-export const UserEntityMock: UserEntity = {
+export const userEntityMock: UserEntity = {
   name: 'Jorge',
   phone: '15158161',
-  email: 'some4@email.com.br',
+  email: 'some3@email.com.br',
   cpf: '123456',
-  password: '4adsada44464',
+  password: '$2b$10$S62WmVpIxL52Z.0y22DWfuaAz8.XUNESChWP.AlMFZnOJ9n9uiqi.',
   id: 4545,
   createdAt: new Date(),
   updateAt: new Date(),

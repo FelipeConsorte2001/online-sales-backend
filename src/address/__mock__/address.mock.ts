@@ -1,5 +1,5 @@
 import { cityMock } from 'src/city/__mocks__/city.mock';
-import { UserEntityMock } from 'src/user/__mock__/user.mock';
+import { userEntityMock } from 'src/user/__mock__/user.mock';
 import { AddressEntity } from '../entity/address.entity';
 
 export const addressMock: AddressEntity = {
@@ -10,5 +10,5 @@ export const addressMock: AddressEntity = {
   complement: 'some complement',
   createdAt: new Date(),
   updateAt: new Date(),
-  userId: UserEntityMock.id,
+  userId: userEntityMock.id,
 };

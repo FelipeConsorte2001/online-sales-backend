@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { cityMock } from 'src/city/__mocks__/city.mock';
 import { CityService } from 'src/city/city.service';
-import { UserEntityMock } from 'src/user/__mock__/user.mock';
+import { userEntityMock } from 'src/user/__mock__/user.mock';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { addressMock } from '../__mock__/address.mock';
@@ -22,7 +22,7 @@ describe('AddressService', () => {
         {
           provide: UserService,
           useValue: {
-            findUserById: jest.fn().mockResolvedValue(UserEntityMock),
+            findUserById: jest.fn().mockResolvedValue(userEntityMock),
           },
         },
         {
@@ -57,7 +57,7 @@ describe('AddressService', () => {
   it('should return address after save', async () => {
     const address = await service.createAddress(
       createAddressMock,
-      UserEntityMock.id,
+      userEntityMock.id,
     );
     expect(address).toEqual(addressMock);
   });
@@ -65,14 +65,14 @@ describe('AddressService', () => {
     jest.spyOn(userService, 'findUserById').mockRejectedValueOnce(new Error());
 
     expect(
-      service.createAddress(createAddressMock, UserEntityMock.id),
+      service.createAddress(createAddressMock, userEntityMock.id),
     ).rejects.toThrow();
   });
   it('should return error if exception in cityService', async () => {
     jest.spyOn(cityService, 'findCityById').mockRejectedValueOnce(new Error());
 
     expect(
-      service.createAddress(createAddressMock, UserEntityMock.id),
+      service.createAddress(createAddressMock, userEntityMock.id),
     ).rejects.toThrow();
   });
 });
