@@ -10,7 +10,6 @@ import { CityModule } from './city/city.module';
 import { RolesGuard } from './guards/roles.guards';
 import { StateModule } from './state/state.module';
 import { UserModule } from './user/user.module';
-import { User2Service } from './user2/user2.service';
 
 @Module({
   imports: [
@@ -42,7 +41,6 @@ import { User2Service } from './user2/user2.service';
       provide: APP_GUARD,
       useClass: RolesGuard,
     },
-    User2Service,
   ],
 })
 export class AppModule {}
