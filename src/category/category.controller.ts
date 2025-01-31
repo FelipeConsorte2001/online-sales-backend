@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Get,
@@ -23,18 +22,12 @@ export class CategoryController {
       (category) => new ReturnCategory(category),
     );
   }
-  @Roles(UserType.Admin, UserType.User)
+  @Roles(UserType.Admin)
   @UsePipes(ValidationPipe)
   @Post('')
   async createCategory(
     @Body() createCategory: createCategory,
   ): Promise<ReturnCategory> {
-    const category = await this.categoryService
-      .findCategoryByName(createCategory.name)
-      .catch(() => undefined);
-    if (category) {
-      throw new BadRequestException(`category ${category.name} already exist`);
-    }
     return this.categoryService.createCategory(createCategory);
   }
 }
