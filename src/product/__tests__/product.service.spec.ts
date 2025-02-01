@@ -5,6 +5,7 @@ import { CategoryService } from 'src/category/category.service';
 import { Repository } from 'typeorm';
 import { createProductMock } from '../__mocks__/createProduct.mock';
 import { productMock } from '../__mocks__/product.mock';
+import { updateProductMock } from '../__mocks__/updateProduct.mock';
 import { ProductEntity } from '../entities/product.entity';
 import { ProductModule } from '../product.module';
 import { ProductService } from '../product.service';
@@ -89,5 +90,20 @@ describe('ProductService', () => {
   it('should return deleted true in delete product', async () => {
     const product = await service.deleteProduct(productMock.id);
     expect(product).toEqual(ReturnDeleteMock);
+  });
+
+  it('should product afther update', async () => {
+    const product = await service.updateProduct(
+      updateProductMock,
+      productMock.id,
+    );
+    expect(product).toEqual(productMock);
+  });
+
+  it('should return erro in update product', async () => {
+    jest.spyOn(productRepository, 'save').mockRejectedValue(new Error());
+    expect(
+      service.updateProduct(updateProductMock, productMock.id),
+    ).rejects.toThrow();
   });
 });
