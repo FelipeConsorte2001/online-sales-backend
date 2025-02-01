@@ -4,9 +4,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { hash } from 'bcrypt';
+import { createPasswordHashed, validatePassword } from 'src/utils/password';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/createUser.dto';
+import { UpdatePassowrdDTO } from './dtos/updateUser.dto';
 import { UserEntity } from './entities/user.entity';
 
 @Injectable()
@@ -21,9 +22,7 @@ export class UserService {
       () => undefined,
     );
     if (user) throw new BadRequestException('email already existe');
-
-    const saltOrRounds = 10;
-    const passwordHashed = await hash(createUserDto.password, saltOrRounds);
+    const passwordHashed = await createPasswordHashed(createUserDto.password);
 
     return this.userRepository.save({
       ...createUserDto,
@@ -55,6 +54,24 @@ export class UserService {
           },
         },
       },
+    });
+  }
+
+  async updatePassword(
+    updateUser: UpdatePassowrdDTO,
+    id: number,
+  ): Promise<UserEntity> {
+    const user = await this.findUserById(id);
+    const passwordHashed = await createPasswordHashed(updateUser.newPassword);
+    const isMatch = await validatePassword(
+      updateUser.lastPassword,
+      user.password || '',
+    );
+    if (!isMatch) throw new BadRequestException('last password ivalid');
+
+    return this.userRepository.save({
+      ...user,
+      password: passwordHashed,
     });
   }
 }
