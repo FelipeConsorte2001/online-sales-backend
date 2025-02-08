@@ -1,9 +1,11 @@
+import { CartProductEntity } from 'src/cart-product/entities/cartProduct.entity';
 import { CategoryEntity } from 'src/category/entities/category.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -38,4 +40,7 @@ export class ProductEntity {
   )
   @JoinColumn({ name: 'category_id', referencedColumnName: 'id' })
   category?: CategoryEntity;
+
+  @ManyToMany(() => CartProductEntity, (cartEntity) => cartEntity.product)
+  cartProduct?: CartProductEntity[];
 }

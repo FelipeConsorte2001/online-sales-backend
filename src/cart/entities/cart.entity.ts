@@ -1,7 +1,9 @@
+import { CartProductEntity } from 'src/cart-product/entities/cartProduct.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -22,4 +24,7 @@ export class CartEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @ManyToMany(() => CartProductEntity, (cartEntity) => cartEntity.cart)
+  cartProduct?: CartProductEntity[];
 }
