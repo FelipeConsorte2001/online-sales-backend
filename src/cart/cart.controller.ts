@@ -11,7 +11,7 @@ import { UserType } from 'src/user/enum/user-type.enum';
 import { UserId } from 'src/decorator.ts/user-id.decorator';
 import { CartService } from './cart.service';
 import { InsertCartDto } from './dtos/insertCart.dto';
-import { CartEntity } from './entities/cart.entity';
+import { ReturnCartDTO } from './dtos/returnCart.dto';
 
 @Roles(UserType.Admin, UserType.User)
 @Roles(UserType.User)
@@ -23,7 +23,9 @@ export class CartController {
   async createCart(
     @Body() insertCart: InsertCartDto,
     @UserId() userId: number,
-  ): Promise<CartEntity> {
-    return this.cartService.InsertProductInCart(insertCart, userId);
+  ): Promise<ReturnCartDTO> {
+    return new ReturnCartDTO(
+      await this.cartService.insertProductInCart(insertCart, userId),
+    );
   }
 }
