@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CartProductService } from 'src/cart-product/cart-product.service';
 import { DeleteResult, Repository } from 'typeorm';
 import { InsertCartDto } from './dtos/insertCart.dto';
+import { UpdateCartDTO } from './dtos/updateCart.dto';
 import { CartEntity } from './entities/cart.entity';
 
 @Injectable()
@@ -68,5 +69,25 @@ export class CartService {
       raw: [],
       affected: 1, // lines affescteds
     };
+  }
+  async deleteProductCart(
+    productId: number,
+    userId: number,
+  ): Promise<DeleteResult> {
+    const cart = await this.findCartByUserId(userId);
+    return this.cartProductService.deleteProductCart(productId, cart.id);
+  }
+
+  async updateProductInCart(
+    cartDto: UpdateCartDTO,
+    userId,
+  ): Promise<CartEntity> {
+    const cart = await this.findCartByUserId(userId).catch(async () => {
+      return this.createCart(userId);
+    });
+
+    await this.cartProductService.updateProductInCart(cartDto, cart);
+
+    return cart;
   }
 }
