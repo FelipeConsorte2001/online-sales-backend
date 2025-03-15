@@ -13,6 +13,8 @@ import { RolesGuard } from './guards/roles.guards';
 import { ProductModule } from './product/product.module';
 import { StateModule } from './state/state.module';
 import { UserModule } from './user/user.module';
+import { Address2Controller } from './address2/address2.controller';
+import { Auth2Controller } from './auth2/auth2.controller';
 
 @Module({
   imports: [
@@ -41,7 +43,7 @@ import { UserModule } from './user/user.module';
     ProductModule,
     CartModule,
   ],
-  controllers: [],
+  controllers: [Address2Controller, Auth2Controller],
   providers: [
     {
       provide: APP_GUARD,
