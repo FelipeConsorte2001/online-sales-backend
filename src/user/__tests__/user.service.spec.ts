@@ -64,7 +64,7 @@ describe('UserService', () => {
   });
 
   it('should return user in getUserByIdUsingReferences', async () => {
-    const user = await service.getUserByIdUsingReferences(userEntityMock.id);
+    const user = await service.getUserByIdUsingRelations(userEntityMock.id);
     expect(user).toEqual(userEntityMock);
   });
 

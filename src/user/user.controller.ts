@@ -3,12 +3,18 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { Roles } from 'src/decorator.ts/roles.decorator';
+import { UserId } from 'src/decorator.ts/user-id.decorator';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { ReturnUserDto } from './dtos/returnUser.dto';
+import { UpdatePasswordDTO } from './dtos/update-password.dto';
+import { UserEntity } from './entities/user.entity';
+import { UserType } from './enum/user-type.enum';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -27,10 +33,20 @@ export class UserController {
       (userEntity) => new ReturnUserDto(userEntity),
     );
   }
+  @Roles(UserType.Admin)
   @Get('/:userId')
   async getUserById(@Param('userId') userId: number): Promise<ReturnUserDto> {
     return new ReturnUserDto(
-      await this.userService.getUserByIdUsingReferences(userId),
+      await this.userService.getUserByIdUsingRelations(userId),
     );
+  }
+  @Roles(UserType.Admin, UserType.User)
+  @Patch()
+  @UsePipes(ValidationPipe)
+  async updatePasswordUser(
+    @Body() updatePasswordDTO: UpdatePasswordDTO,
+    @UserId() userId: number,
+  ): Promise<UserEntity> {
+    return this.userService.updatePasswordUser(updatePasswordDTO, userId);
   }
 }
