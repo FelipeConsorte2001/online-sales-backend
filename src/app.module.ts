@@ -13,6 +13,8 @@ import { RolesGuard } from './guards/roles.guards';
 import { ProductModule } from './product/product.module';
 import { StateModule } from './state/state.module';
 import { UserModule } from './user/user.module';
+import { PaymentStatusModule } from './payment-status/payment-status.module';
+import { PaymentModule } from './payment/payment.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -39,6 +41,8 @@ import { UserModule } from './user/user.module';
     CategoryModule,
     ProductModule,
     CartModule,
+    PaymentStatusModule,
+    PaymentModule,
   ],
   providers: [
     {
