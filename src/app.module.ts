@@ -15,6 +15,8 @@ import { StateModule } from './state/state.module';
 import { UserModule } from './user/user.module';
 import { PaymentStatusModule } from './payment-status/payment-status.module';
 import { PaymentModule } from './payment/payment.module';
+import { OrderModule } from './order/order.module';
+import { OrderProductModule } from './order-product/order-product.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -43,6 +45,8 @@ import { PaymentModule } from './payment/payment.module';
     CartModule,
     PaymentStatusModule,
     PaymentModule,
+    OrderModule,
+    OrderProductModule,
   ],
   providers: [
     {
