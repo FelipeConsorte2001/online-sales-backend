@@ -1,0 +1,23 @@
+import {
+  Body,
+  Controller,
+  Param,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { CreateOrderDTO } from './dtos/createOrder.dto';
+import { OrderService } from './order.service';
+
+@Controller('order')
+export class OrderController {
+  constructor(private readonly orderService: OrderService) {}
+  @Post()
+  @UsePipes(ValidationPipe)
+  async createOrder(
+    @Body() createOrder: CreateOrderDTO,
+    @Param('cartId') cartId: number,
+  ) {
+    return this.orderService.createOrder(createOrder, cartId);
+  }
+}
