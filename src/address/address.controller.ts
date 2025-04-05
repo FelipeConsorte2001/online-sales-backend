@@ -29,9 +29,10 @@ export class AddressController {
     return this.addressService.createAddress(createAddressDto, userId);
   }
 
-  @Get('')
-  @UsePipes(ValidationPipe)
-  async findAddress(@UserId() userId: number): Promise<returnAddressDto[]> {
+  @Get()
+  async findAddressByUserId(
+    @UserId() userId: number,
+  ): Promise<returnAddressDto[]> {
     return (await this.addressService.findAddresssByUserId(userId)).map(
       (address) => new returnAddressDto(address),
     );
