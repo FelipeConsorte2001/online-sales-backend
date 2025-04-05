@@ -15,7 +15,6 @@ export class PaymentService {
   ) {}
 
   async createPayment(createOrder: CreateOrderDTO): Promise<PaymentEntity> {
-    console.log(createOrder?.amountPayments);
     if (createOrder?.amountPayments) {
       const paymentCreditCard = new PaymentCreditCardEntity(
         PaymentType.done,

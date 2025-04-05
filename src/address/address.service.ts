@@ -34,7 +34,6 @@ export class AddressService {
     });
     if (!addresses || addresses.length == 0)
       throw new NotFoundException(`Address not found for userrId ${userId}`);
-    console.log(addresses);
     return addresses;
   }
 }
