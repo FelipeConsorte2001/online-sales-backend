@@ -48,8 +48,7 @@ describe('OrderService', () => {
         {
           provide: getRepositoryToken(OrderEntity),
           useValue: {
-            find: '',
-            save: '',
+            save: jest.fn,
           },
         },
       ],
