@@ -41,7 +41,7 @@ describe('AddressController', () => {
     expect(address).toEqual(addressMock);
   });
   it('should address Entity in createAddress', async () => {
-    const addresses = await controller.findAddress(userEntityMock.id);
+    const addresses = await controller.findAddressByUserId(userEntityMock.id);
 
     expect(addresses).toEqual([
       {
