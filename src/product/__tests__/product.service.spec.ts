@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ReturnDeleteMock } from 'src/__mocks__/returnDelete.mocks';
 import { CategoryService } from 'src/category/category.service';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { createProductMock } from '../__mocks__/createProduct.mock';
 import { productMock } from '../__mocks__/product.mock';
 import { updateProductMock } from '../__mocks__/updateProduct.mock';
@@ -105,5 +105,30 @@ describe('ProductService', () => {
     expect(
       service.updateProduct(updateProductMock, productMock.id),
     ).rejects.toThrow();
+  });
+
+  it('should return relations in find all products', async () => {
+    const spy = jest.spyOn(productRepository, 'find');
+    const products = await service.findAll([], true);
+    expect(products).toEqual([productMock]);
+    expect(spy.mock.calls[0][0]).toEqual({
+      relations: {
+        category: true,
+      },
+    });
+  });
+
+  it('should return relations in find all products', async () => {
+    const spy = jest.spyOn(productRepository, 'find');
+    const products = await service.findAll([productMock.id], true);
+    expect(products).toEqual([productMock]);
+    expect(spy.mock.calls[0][0]).toEqual({
+      where: {
+        id: In([productMock.id]),
+      },
+      relations: {
+        category: true,
+      },
+    });
   });
 });
