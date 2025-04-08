@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { createUserMock } from '../__mock__/createUser.mock';
 import { updatePasswordMock } from '../__mock__/updateUser.mock';
 import { userEntityMock } from '../__mock__/user.mock';
+import { ReturnUserDto } from '../dtos/returnUser.dto';
 import { UserController } from '../user.controller';
 import { UserService } from '../user.service';
 
@@ -20,6 +21,7 @@ describe('UserController', () => {
             getUserById: jest.fn().mockResolvedValue(userEntityMock),
             getAllUser: jest.fn().mockResolvedValue([userEntityMock]),
             updatePasswordUser: jest.fn().mockResolvedValue(userEntityMock),
+            getInfoUser: jest.fn().mockResolvedValue(userEntityMock),
             getUserByIdUsingRelations: jest
               .fn()
               .mockResolvedValue(userEntityMock),
@@ -62,5 +64,11 @@ describe('UserController', () => {
     );
 
     expect(user).toEqual(userEntityMock);
+  });
+
+  it('should return all user info', async () => {
+    const user = await controller.getInfoUser(userEntityMock.id);
+
+    expect(user).toEqual(new ReturnUserDto(userEntityMock));
   });
 });
