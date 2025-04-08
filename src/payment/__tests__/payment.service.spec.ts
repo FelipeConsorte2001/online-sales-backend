@@ -4,13 +4,13 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { cartProductMock } from 'src/cart-product/__mocks__/cartProduct.mock';
 import { cartMock } from 'src/cart/__mocks__/cart.mock';
 import {
-  createOrderCreditCardMock,
-  createOrderPixMock,
+    createOrderCreditCardMock,
+    createOrderPixMock,
 } from 'src/order/__mocks__/createOrder.mock';
 import { PaymentType } from 'src/payment-status/enum/paymentStatus.enum';
 import { productMock } from 'src/product/__mocks__/product.mock';
 import { Repository } from 'typeorm';
-import { PaymentMock } from '../__mocks__/payment.mock';
+import { paymentMock } from '../__mocks__/payment.mock';
 import { paymentPixMock } from '../__mocks__/paymentPix.mock';
 import { PaymentEntity } from '../entities/payment.entity';
 import { PaymentCreditCardEntity } from '../entities/paymentCreditCard.entity';
@@ -27,7 +27,7 @@ describe('PaymentService', () => {
         {
           provide: getRepositoryToken(PaymentEntity),
           useValue: {
-            save: jest.fn().mockResolvedValue(PaymentMock),
+            save: jest.fn().mockResolvedValue(paymentMock),
           },
         },
         PaymentService,
@@ -56,7 +56,7 @@ describe('PaymentService', () => {
 
     const savePayment: PaymentPixEntity = spy.mock
       .calls[0][0] as PaymentPixEntity;
-    expect(payment).toEqual(PaymentMock);
+    expect(payment).toEqual(paymentMock);
     expect(savePayment.code).toEqual(paymentPixMock.code);
     expect(savePayment.datePayment).toEqual(paymentPixMock.datePayment);
   });
@@ -73,7 +73,7 @@ describe('PaymentService', () => {
     const savePayment: PaymentCreditCardEntity = spy.mock
       .calls[0][0] as PaymentCreditCardEntity;
 
-    expect(payment).toEqual(PaymentMock);
+    expect(payment).toEqual(paymentMock);
     expect(savePayment.amountPayments).toEqual(
       createOrderCreditCardMock.amountPayments,
     );

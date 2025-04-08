@@ -1,7 +1,7 @@
 import { PaymentType } from 'src/payment-status/enum/paymentStatus.enum';
 import { PaymentEntity } from '../entities/payment.entity';
 
-export const PaymentMock: PaymentEntity = {
+export const paymentMock: PaymentEntity = {
   createdAt: new Date(),
   discount: 432,
   finalPrice: 48.4,

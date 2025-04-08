@@ -1,7 +1,7 @@
 import { PaymentCreditCardEntity } from '../entities/paymentCreditCard.entity';
-import { PaymentMock } from './payment.mock';
+import { paymentMock } from './payment.mock';
 
 export const paymentCreditCartMock: PaymentCreditCardEntity = {
-  ...PaymentMock,
+  ...paymentMock,
   amountPayments: 5,
 };
