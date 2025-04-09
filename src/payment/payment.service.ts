@@ -4,7 +4,7 @@ import { CartProductEntity } from 'src/cart-product/entities/cartProduct.entity'
 import { CartEntity } from 'src/cart/entities/cart.entity';
 import { CreateOrderDTO } from 'src/order/dtos/createOrder.dto';
 import { PaymentType } from 'src/payment-status/enum/paymentStatus.enum';
-import { PaymentEntity } from 'src/payment/entities/payment.entity';
+import { paymentEntity } from 'src/payment/entities/payment.entity';
 import { PaymentCreditCardEntity } from 'src/payment/entities/paymentCreditCard.entity';
 import { ProductEntity } from 'src/product/entities/product.entity';
 import { Repository } from 'typeorm';
@@ -13,8 +13,8 @@ import { PaymentPixEntity } from './entities/paymentPix.entity';
 @Injectable()
 export class PaymentService {
   constructor(
-    @InjectRepository(PaymentEntity)
-    private readonly paymentRepository: Repository<PaymentEntity>,
+    @InjectRepository(paymentEntity)
+    private readonly paymentRepository: Repository<paymentEntity>,
   ) {}
   gerenerateFinalPrice(cart: CartEntity, products: ProductEntity[]): number {
     if (!cart.cartProduct || cart.cartProduct.length === 0) {
@@ -38,7 +38,7 @@ export class PaymentService {
     createOrder: CreateOrderDTO,
     products: ProductEntity[],
     cart: CartEntity,
-  ): Promise<PaymentEntity> {
+  ): Promise<paymentEntity> {
     const finalPrince = this.gerenerateFinalPrice(cart, products);
     if (createOrder?.amountPayments) {
       const paymentCreditCard = new PaymentCreditCardEntity(

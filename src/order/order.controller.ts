@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
@@ -10,7 +11,7 @@ import { Roles } from 'src/decorator.ts/roles.decorator';
 import { UserId } from 'src/decorator.ts/user-id.decorator';
 import { UserType } from 'src/user/enum/user-type.enum';
 import { CreateOrderDTO } from './dtos/createOrder.dto';
-import { ReturnOrderDTO } from './dtos/returnOrder.dto';
+import { returnOrderDTO } from './dtos/returnOrder.dto';
 import { OrderEntity } from './entities/order.entity';
 import { OrderService } from './order.service';
 
@@ -36,9 +37,18 @@ export class OrderController {
   @Roles(UserType.Admin)
   @Get('/all')
   @UsePipes(ValidationPipe)
-  async findAllOrders(): Promise<ReturnOrderDTO[]> {
+  async findAllOrders(): Promise<returnOrderDTO[]> {
     return (await this.orderService.findAllOrders()).map(
-      (order) => new ReturnOrderDTO(order),
+      (order) => new returnOrderDTO(order),
+    );
+  }
+
+  @Roles(UserType.Admin)
+  @Get('/:orderId')
+  @UsePipes(ValidationPipe)
+  async findOrderById(@Param('orderId') id: number): Promise<returnOrderDTO[]> {
+    return (await this.orderService.findOrdersByUserId(undefined, id)).map(
+      (order) => new returnOrderDTO(order),
     );
   }
 }
