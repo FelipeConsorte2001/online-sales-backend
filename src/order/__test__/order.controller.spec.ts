@@ -17,6 +17,7 @@ describe('OrderController', () => {
           useValue: {
             createOrder: jest.fn().mockResolvedValue(orderMock),
             findOrdersByUserId: jest.fn().mockResolvedValue([orderMock]),
+            findAllOrders: jest.fn().mockResolvedValue([orderMock]),
           },
         },
       ],
@@ -43,5 +44,15 @@ describe('OrderController', () => {
   it('should return order in create', async () => {
     const order = await controller.findOrdersByUserId(userEntityMock.id);
     expect(order).toEqual([orderMock]);
+  });
+
+  it('should return all orders', async () => {
+    const order = await controller.findAllOrders();
+    expect(order).toEqual([
+      {
+        id: orderMock.id,
+        date: orderMock.date.toString(),
+      },
+    ]);
   });
 });
