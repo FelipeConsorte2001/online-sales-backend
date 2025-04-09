@@ -14,7 +14,7 @@ import { Roles } from 'src/decorator.ts/roles.decorator';
 import { UserType } from 'src/user/enum/user-type.enum';
 import { DeleteResult } from 'typeorm';
 import { createProductDTO } from './dtos/createProduct.dto';
-import { ReturnProduct } from './dtos/returnProduct.dto';
+import { returnProduct } from './dtos/returnProduct.dto';
 import { updateProductDTO } from './dtos/updateproduct.dto';
 import { ProductEntity } from './entities/product.entity';
 import { ProductService } from './product.service';
@@ -25,9 +25,9 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  async getAllProduct(): Promise<ReturnProduct[]> {
-    return (await this.productService.findAll()).map(
-      (product: ProductEntity) => new ReturnProduct(product),
+  async getAllProduct(): Promise<returnProduct[]> {
+    return (await this.productService.findAll([], true)).map(
+      (product: ProductEntity) => new returnProduct(product),
     );
   }
   @Roles(UserType.Admin)
@@ -36,7 +36,7 @@ export class ProductController {
   async createProduct(
     @Body()
     createProduct: createProductDTO,
-  ): Promise<ReturnProduct> {
+  ): Promise<returnProduct> {
     return this.productService.createProduct(createProduct);
   }
 

@@ -4,7 +4,7 @@ import { CartService } from 'src/cart/cart.service';
 import { CartEntity } from 'src/cart/entities/cart.entity';
 import { OrderProductEntity } from 'src/order-product/entities/orderProduct.entity';
 import { OrderProductService } from 'src/order-product/order-product.service';
-import { PaymentEntity } from 'src/payment/entities/payment.entity';
+import { paymentEntity } from 'src/payment/entities/payment.entity';
 import { PaymentService } from 'src/payment/payment.service';
 import { ProductEntity } from 'src/product/entities/product.entity';
 import { ProductService } from 'src/product/product.service';
@@ -26,7 +26,7 @@ export class OrderService {
   async saveOrder(
     createOrder: CreateOrderDTO,
     userId: number,
-    payment: PaymentEntity,
+    payment: paymentEntity,
   ): Promise<OrderEntity> {
     return this.orderRepository.save({
       addressId: createOrder.addressId,
@@ -60,7 +60,7 @@ export class OrderService {
     const products = await this.productService.findAll(
       cart.cartProduct?.map((cartProduct) => cartProduct.productId),
     );
-    const payment: PaymentEntity = await this.paymentService.createPayment(
+    const payment: paymentEntity = await this.paymentService.createPayment(
       createOrder,
       products,
       cart,
@@ -76,10 +76,14 @@ export class OrderService {
     return order;
   }
 
-  async findOrdersByUserId(userId: number): Promise<OrderEntity[]> {
+  async findOrdersByUserId(
+    userId?: number,
+    orderId?: number,
+  ): Promise<OrderEntity[]> {
     const orders = await this.orderRepository.find({
       where: {
         userId,
+        id: orderId,
       },
       relations: {
         address: true,
@@ -89,11 +93,39 @@ export class OrderService {
         payment: {
           paymentStatus: true,
         },
+        user: !!orderId,
       },
     });
     if (!orders || orders.length === 0) {
       throw new NotFoundException('Order not found');
     }
     return orders;
+  }
+
+  async findAllOrders(): Promise<OrderEntity[]> {
+    const orders = await this.orderRepository.find({
+      relations: {
+        user: true,
+      },
+    });
+    if (!orders || orders.length === 0) {
+      throw new NotFoundException('orders not found');
+    }
+    const ordersProduct =
+      await this.orderProductService.findAmountProductByOrderId(
+        orders.map((order) => order.id),
+      );
+    return orders.map((order) => {
+      const orderProduct = ordersProduct.find(
+        (currentOrder) => currentOrder.order_id === order.id,
+      );
+      if (orderProduct) {
+        return {
+          ...order,
+          amountProducts: Number(orderProduct.total),
+        };
+      }
+      return order;
+    });
   }
 }

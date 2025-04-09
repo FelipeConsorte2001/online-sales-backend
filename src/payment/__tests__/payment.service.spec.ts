@@ -12,20 +12,20 @@ import { productMock } from 'src/product/__mocks__/product.mock';
 import { Repository } from 'typeorm';
 import { paymentMock } from '../__mocks__/payment.mock';
 import { paymentPixMock } from '../__mocks__/paymentPix.mock';
-import { PaymentEntity } from '../entities/payment.entity';
+import { paymentEntity } from '../entities/payment.entity';
 import { PaymentCreditCardEntity } from '../entities/paymentCreditCard.entity';
 import { PaymentPixEntity } from '../entities/paymentPix.entity';
 import { PaymentService } from '../payment.service';
 
 describe('PaymentService', () => {
   let service: PaymentService;
-  let paymentRepository: Repository<PaymentEntity>;
+  let paymentRepository: Repository<paymentEntity>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         {
-          provide: getRepositoryToken(PaymentEntity),
+          provide: getRepositoryToken(paymentEntity),
           useValue: {
             save: jest.fn().mockResolvedValue(paymentMock),
           },
@@ -35,8 +35,8 @@ describe('PaymentService', () => {
     }).compile();
 
     service = module.get<PaymentService>(PaymentService);
-    paymentRepository = module.get<Repository<PaymentEntity>>(
-      getRepositoryToken(PaymentEntity),
+    paymentRepository = module.get<Repository<paymentEntity>>(
+      getRepositoryToken(paymentEntity),
     );
   });
 

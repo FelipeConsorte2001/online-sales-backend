@@ -1,9 +1,9 @@
 import { CreateOrderDTO } from 'src/order/dtos/createOrder.dto';
 import { ChildEntity, Column } from 'typeorm';
-import { PaymentEntity } from './payment.entity';
+import { paymentEntity } from './payment.entity';
 
 @ChildEntity()
-export class PaymentPixEntity extends PaymentEntity {
+export class PaymentPixEntity extends paymentEntity {
   @Column({ name: 'code', nullable: false })
   code: string;
 
