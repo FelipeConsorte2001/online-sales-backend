@@ -46,9 +46,9 @@ export class OrderController {
   @Roles(UserType.Admin)
   @Get('/:orderId')
   @UsePipes(ValidationPipe)
-  async findOrderById(@Param('orderId') id: number): Promise<returnOrderDTO[]> {
-    return (await this.orderService.findOrdersByUserId(undefined, id)).map(
-      (order) => new returnOrderDTO(order),
+  async findOrderById(@Param('orderId') id: number): Promise<returnOrderDTO> {
+    return new returnOrderDTO(
+      (await this.orderService.findOrdersByUserId(undefined, id))[0],
     );
   }
 }

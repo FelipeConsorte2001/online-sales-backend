@@ -4,8 +4,8 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { cartProductMock } from 'src/cart-product/__mocks__/cartProduct.mock';
 import { cartMock } from 'src/cart/__mocks__/cart.mock';
 import {
-    createOrderCreditCardMock,
-    createOrderPixMock,
+  createOrderCreditCardMock,
+  createOrderPixMock,
 } from 'src/order/__mocks__/createOrder.mock';
 import { PaymentType } from 'src/payment-status/enum/paymentStatus.enum';
 import { productMock } from 'src/product/__mocks__/product.mock';

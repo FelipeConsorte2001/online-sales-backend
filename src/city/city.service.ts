@@ -24,4 +24,24 @@ export class CityService {
     if (!city) throw new NotFoundException('City Id Not found');
     return city;
   }
+
+  async findCityByName(
+    nameCity: string,
+    nameState: string,
+  ): Promise<CityEntity> {
+    const city = await this.cityRepository.findOne({
+      where: {
+        name: nameCity,
+        state: {
+          uf: nameState,
+        },
+      },
+      relations: {
+        state: true,
+      },
+    });
+    if (!city) throw new NotFoundException(`City not found`);
+
+    return city;
+  }
 }

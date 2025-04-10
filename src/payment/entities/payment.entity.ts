@@ -1,15 +1,15 @@
 import { OrderEntity } from 'src/order/entities/order.entity';
 import { paymentStatusEntity } from 'src/payment-status/entities/paymentStatus.entity';
 import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    JoinColumn,
-    ManyToOne,
-    OneToMany,
-    PrimaryGeneratedColumn,
-    TableInheritance,
-    UpdateDateColumn,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  TableInheritance,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity({ name: 'payment' })
