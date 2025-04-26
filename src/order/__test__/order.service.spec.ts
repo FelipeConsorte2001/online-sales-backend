@@ -5,6 +5,7 @@ import { cartProductMock } from 'src/cart-product/__mocks__/cartProduct.mock';
 import { cartMock } from 'src/cart/__mocks__/cart.mock';
 import { CartService } from 'src/cart/cart.service';
 import { orderProductMock } from 'src/order-product/__mocks__/orderProduct.mock';
+import { groupOrderMock } from 'src/order-product/__mocks__/returnGroupBy.mock';
 import { OrderProductService } from 'src/order-product/order-product.service';
 import { paymentMock } from 'src/payment/__mocks__/payment.mock';
 import { PaymentService } from 'src/payment/payment.service';
@@ -48,6 +49,9 @@ describe('OrderService', () => {
           provide: OrderProductService,
           useValue: {
             createOrderProduct: jest.fn().mockResolvedValue(orderProductMock),
+            findAmountProductByOrderId: jest
+              .fn()
+              .mockResolvedValue([groupOrderMock]),
           },
         },
         {
@@ -97,7 +101,7 @@ describe('OrderService', () => {
         id: undefined,
       },
       relations: {
-        address: true,
+        address: { city: { state: true } },
         ordersProduct: {
           product: true,
         },
@@ -177,7 +181,9 @@ describe('OrderService', () => {
     const spy = jest.spyOn(orderRepositoty, 'find');
 
     const order = await service.findAllOrders();
-    expect(order).toEqual([orderMock]);
+    expect(order).toEqual([
+      { ...orderMock, amountProducts: Number(groupOrderMock.total) },
+    ]);
     expect(spy.mock.calls[0][0]).toEqual({
       relations: {
         user: true,

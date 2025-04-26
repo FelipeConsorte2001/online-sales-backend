@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { createUserMock } from '../__mock__/createUser.mock';
 import { userEntityMock } from '../__mock__/user.mock';
 import { UserEntity } from '../entities/user.entity';
+import { UserType } from '../enum/user-type.enum';
 import { UserService } from '../user.service';
 
 describe('UserService', () => {
@@ -76,5 +77,21 @@ describe('UserService', () => {
     jest.spyOn(userRepository, 'findOne').mockRejectedValueOnce(undefined);
     const user = await service.createUser(createUserMock);
     expect(user).toEqual(userEntityMock);
+  });
+
+  it('Should return a user if user not exist', async () => {
+    const spy = jest.spyOn(userRepository, 'save');
+    jest.spyOn(userRepository, 'findOne').mockResolvedValue(undefined);
+    const user = await service.createUser(createUserMock);
+    expect(user).toEqual(userEntityMock);
+    expect(spy.mock.calls[0][0].typeUser).toEqual(UserType.User);
+  });
+
+  it('Should return a user if user not exist', async () => {
+    const spy = jest.spyOn(userRepository, 'save');
+    jest.spyOn(userRepository, 'findOne').mockResolvedValue(undefined);
+    const user = await service.createUser(createUserMock, UserType.Admin);
+    expect(user).toEqual(userEntityMock);
+    expect(spy.mock.calls[0][0].typeUser).toEqual(UserType.Admin);
   });
 });

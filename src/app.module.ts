@@ -17,6 +17,7 @@ import { PaymentStatusModule } from './payment-status/payment-status.module';
 import { PaymentModule } from './payment/payment.module';
 import { OrderModule } from './order/order.module';
 import { OrderProductModule } from './order-product/order-product.module';
+import { MailModule } from './mail/mail.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -47,6 +48,7 @@ import { OrderProductModule } from './order-product/order-product.module';
     PaymentModule,
     OrderModule,
     OrderProductModule,
+    MailModule,
   ],
   providers: [
     {

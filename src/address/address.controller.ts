@@ -1,10 +1,10 @@
 import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  UsePipes,
-  ValidationPipe,
+    Body,
+    Controller,
+    Get,
+    Post,
+    UsePipes,
+    ValidationPipe,
 } from '@nestjs/common';
 import { Roles } from 'src/decorator.ts/roles.decorator';
 import { UserId } from 'src/decorator.ts/user-id.decorator';
@@ -14,7 +14,7 @@ import { createAddressDto } from './dto/createAddress.dto';
 import { returnAddressDto } from './dto/returnAddress.dto';
 import { AddressEntity } from './entity/address.entity';
 
-@Roles(UserType.User, UserType.Admin)
+@Roles(UserType.User, UserType.Admin, UserType.Root)
 @Controller('address')
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
