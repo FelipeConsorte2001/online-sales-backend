@@ -3,6 +3,7 @@ import { createUserMock } from '../__mock__/createUser.mock';
 import { updatePasswordMock } from '../__mock__/updateUser.mock';
 import { userEntityMock } from '../__mock__/user.mock';
 import { ReturnUserDto } from '../dtos/returnUser.dto';
+import { UserType } from '../enum/user-type.enum';
 import { UserController } from '../user.controller';
 import { UserService } from '../user.service';
 
@@ -42,6 +43,13 @@ describe('UserController', () => {
   it('should create a user', async () => {
     const user = await controller.createUser(createUserMock);
     expect(user).toEqual(userEntityMock);
+  });
+
+  it('should create a admin user', async () => {
+    const spyOn = jest.spyOn(userService, 'createUser');
+    const user = await controller.createUserAdmin(createUserMock);
+    expect(user).toEqual(userEntityMock);
+    expect(spyOn.mock.calls[0][1]).toEqual(UserType.Admin);
   });
 
   it('should return all user', async () => {

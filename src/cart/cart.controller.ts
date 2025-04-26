@@ -1,13 +1,13 @@
 import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UsePipes,
-  ValidationPipe,
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Patch,
+    Post,
+    UsePipes,
+    ValidationPipe,
 } from '@nestjs/common';
 import { Roles } from 'src/decorator.ts/roles.decorator';
 import { UserType } from 'src/user/enum/user-type.enum';
@@ -19,7 +19,7 @@ import { InsertCartDto } from './dtos/insertCart.dto';
 import { ReturnCartDTO } from './dtos/returnCart.dto';
 import { UpdateCartDTO } from './dtos/updateCart.dto';
 
-@Roles(UserType.Admin, UserType.User)
+@Roles(UserType.Admin, UserType.Root, UserType.User)
 @Roles(UserType.User)
 @Controller('cart')
 export class CartController {

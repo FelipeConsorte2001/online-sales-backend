@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { UpdatePasswordDTO } from './dtos/update-password.dto';
 import { UserEntity } from './entities/user.entity';
+import { UserType } from './enum/user-type.enum';
 
 @Injectable()
 export class UserService {
@@ -18,7 +19,10 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
+  async createUser(
+    createUserDto: CreateUserDto,
+    userType?: number,
+  ): Promise<UserEntity> {
     const user = await this.findUserByEmail(createUserDto.email).catch(
       () => undefined,
     );
@@ -29,7 +33,7 @@ export class UserService {
 
     return this.userRepository.save({
       ...createUserDto,
-      typeUser: 1,
+      typeUser: userType ? userType : UserType.User,
       password: passwordHashed,
     });
   }

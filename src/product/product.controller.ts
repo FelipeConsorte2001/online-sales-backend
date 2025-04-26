@@ -1,13 +1,13 @@
 import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  UsePipes,
-  ValidationPipe,
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    UsePipes,
+    ValidationPipe,
 } from '@nestjs/common';
 
 import { Roles } from 'src/decorator.ts/roles.decorator';
@@ -19,7 +19,7 @@ import { updateProductDTO } from './dtos/updateproduct.dto';
 import { ProductEntity } from './entities/product.entity';
 import { ProductService } from './product.service';
 
-@Roles(UserType.Admin, UserType.User)
+@Roles(UserType.Admin, UserType.Root, UserType.User)
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
@@ -30,7 +30,7 @@ export class ProductController {
       (product: ProductEntity) => new returnProduct(product),
     );
   }
-  @Roles(UserType.Admin)
+  @Roles(UserType.Admin, UserType.Root)
   @UsePipes(ValidationPipe)
   @Post('')
   async createProduct(
@@ -40,7 +40,7 @@ export class ProductController {
     return this.productService.createProduct(createProduct);
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserType.Admin, UserType.Root)
   @Delete('/:productId')
   async deleteProduct(
     @Param('productId') productId: number,
@@ -48,7 +48,7 @@ export class ProductController {
     return this.productService.deleteProduct(productId);
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserType.Admin, UserType.Root)
   @UsePipes(ValidationPipe)
   @Put('/:productId')
   async updateProduct(
