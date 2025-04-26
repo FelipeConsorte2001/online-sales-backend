@@ -36,6 +36,21 @@ export class ProductEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
+  @Column({ name: 'weight', nullable: false })
+  weight: number;
+
+  @Column({ name: 'length', nullable: false })
+  length: number;
+
+  @Column({ name: 'height', nullable: false })
+  height: number;
+
+  @Column({ name: 'width', nullable: false })
+  width: number;
+
+  @Column({ name: 'diameter', nullable: false })
+  diameter: number;
+
   @ManyToOne(
     () => CategoryEntity,
     (category: CategoryEntity) => category.products,

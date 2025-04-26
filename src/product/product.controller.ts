@@ -1,13 +1,13 @@
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Post,
-    Put,
-    UsePipes,
-    ValidationPipe,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 
 import { Roles } from 'src/decorator.ts/roles.decorator';
@@ -28,6 +28,16 @@ export class ProductController {
   async getAllProduct(): Promise<returnProduct[]> {
     return (await this.productService.findAll([], true)).map(
       (product: ProductEntity) => new returnProduct(product),
+    );
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/:productId')
+  async findProductById(
+    @Param('productId') productId: number,
+  ): Promise<returnProduct> {
+    return new returnProduct(
+      await this.productService.findProductById(productId, true),
     );
   }
   @Roles(UserType.Admin, UserType.Root)
