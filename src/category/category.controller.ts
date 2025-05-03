@@ -51,4 +51,13 @@ export class CategoryController {
   ): Promise<CategoryEntity> {
     return this.categoryService.updateCategory(id, updateCategory);
   }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @UsePipes(ValidationPipe)
+  @Get(':id')
+  async findCategoryById(@Param('id') id: number): Promise<ReturnCategory> {
+    return new ReturnCategory(
+      await this.categoryService.findCategoryById(id, true),
+    );
+  }
 }
