@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductService } from 'src/product/product.service';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { ReturnCategory } from './dtos/category.dto';
 import { CountProduct } from './dtos/countProduct,dto';
 import { createCategory } from './dtos/createCategory.dto';
@@ -66,13 +66,26 @@ export class CategoryService {
     return category;
   }
 
-  async findCategoryById(id: number): Promise<CategoryEntity> {
+  async findCategoryById(
+    id: number,
+    isRelations?: boolean,
+  ): Promise<CategoryEntity> {
+    const relations = isRelations ? { products: true } : undefined;
+
     const category = await this.categoryRepository
-      .findOne({ where: { id } })
+      .findOne({ where: { id: id }, relations })
       .catch(() => undefined);
     if (!category) {
       throw new NotFoundException('category not found');
     }
     return category;
+  }
+
+  async deleteCategory(id: number): Promise<DeleteResult> {
+    const category = await this.findCategoryById(id, true);
+    if (category.products?.length > 0) {
+      throw new BadRequestException('Category with relations.');
+    }
+    return this.categoryRepository.delete(id);
   }
 }
