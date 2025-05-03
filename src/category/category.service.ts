@@ -11,6 +11,7 @@ import { DeleteResult, Repository } from 'typeorm';
 import { ReturnCategory } from './dtos/category.dto';
 import { CountProduct } from './dtos/countProduct,dto';
 import { createCategory } from './dtos/createCategory.dto';
+import { updateCategory } from './dtos/updateCategory.dto';
 import { CategoryEntity } from './entities/category.entity';
 
 @Injectable()
@@ -87,5 +88,16 @@ export class CategoryService {
       throw new BadRequestException('Category with relations.');
     }
     return this.categoryRepository.delete(id);
+  }
+  async updateCategory(
+    id: number,
+    updateCategory: updateCategory,
+  ): Promise<CategoryEntity> {
+    const category = await this.findCategoryById(id);
+
+    return this.categoryRepository.save({
+      ...category,
+      ...updateCategory,
+    });
   }
 }

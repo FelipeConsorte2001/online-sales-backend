@@ -8,6 +8,7 @@ import { ProductService } from 'src/product/product.service';
 import { Repository } from 'typeorm';
 import { categoryMock } from '../__mock__/category.mock';
 import { createCategoryMock } from '../__mock__/createCategory.mock';
+import { updateCategoryMock } from '../__mock__/updateCategory.mock';
 import { CategoryService } from '../category.service';
 import { ReturnCategory } from '../dtos/category.dto';
 import { CategoryEntity } from '../entities/category.entity';
@@ -127,5 +128,28 @@ describe('CategoryService', () => {
     expect(service.deleteCategory(categoryMock.id)).rejects.toThrow(
       BadRequestException,
     );
+  });
+
+  it('should return category in update category', async () => {
+    const spy = jest.spyOn(categoryRepository, 'findOne');
+    const category = await service.updateCategory(
+      categoryMock.id,
+      updateCategoryMock,
+    );
+    expect(category).toEqual(categoryMock);
+    expect(spy.mock.calls.length > 0).toEqual(true);
+  });
+
+  it('should send new category to save', async () => {
+    const spy = jest.spyOn(categoryRepository, 'save');
+    const category = await service.updateCategory(
+      categoryMock.id,
+      updateCategoryMock,
+    );
+    expect(category).toEqual(categoryMock);
+    expect(spy.mock.calls[0][0]).toEqual({
+      ...categoryMock,
+      ...updateCategoryMock,
+    });
   });
 });
